@@ -38,24 +38,22 @@ ques['Body'] = ques['Body'].apply(rem_html_tags)
 4. Save the questions file for later use
 
 '''ques.to_csv('question_clean.csv',index=False)
-'''python
+'''
 
 >Tags File
 *Code* : 
 1. Read Tags File
 2. Identify top 10 Tags by count
-```python
+```
 tagCount =  collections.Counter(list(df_tags['Tag'])).most_common(10)
 print(tagCount)
 
 [('javascript', 124155), ('java', 115212), ('c#', 101186), ('php', 98808), ('android', 90659), ('jquery', 78542), ('python', 64601), ('html', 58976), ('c++', 47591), ('ios', 47009)]
 ```
 
-<img src="Images/top10_tags.JPG" width="600">
-
 3. Manipulate the tags dataframe so that all the Tags for an ID are as a list in a row (grouped by Question ID)
 
-```python
+```
 def add_tags(question_id):
     return tag_top10[tag_top10['Id'] == question_id['Id']].Tag.values
 
@@ -64,24 +62,24 @@ top10 = tag_top10.apply(add_tags, axis=1)
 
 
 >Combine the Questions and Tags
-*Code* : Stackoverflow Tags Map & Model.ipynb
+*Code* : 
 
 Merge the Questions and Tags data frame by ID
 
-```python
+```
 total=pd.merge(ques, top10_tags, on='Id')
 ```
 
 Our Dataset would now have only Id, Title, Body & Tags
 
 >Text Preprocessing
-*Code* : Stackoverflow Tags Map & Model.ipynb
+*Code* : 
 
 We will use nltk, preprocessing from Keras and sklearn to process the text data
 
 *Tags preprocesing*
 Use MultiLabelBinarizer from sklearn on the Class labels(Tags)
-```python
+```
 from sklearn.preprocessing import MultiLabelBinarizer
 multilabel_binarizer = MultiLabelBinarizer()
 multilabel_binarizer.fit(total.Tags)
@@ -105,7 +103,7 @@ RNN for Title has
   - 1 Gated recurrent unit (GRU) layer
   - 1 dense output layer of shape 10(No of classes(tags) we are trying to predict) 
 
-```python
+```
     # Title Only
     title_input = Input(name='title_input',shape=[max_len_t])
     title_Embed = Embedding(vocab_len_t+1,2000,input_length=max_len_t,mask_zero=True,name='title_Embed')(title_input)
@@ -118,7 +116,7 @@ RNN for Body has
   - 1 Embedding Layer has input of Title vocabulary length(1292018) + 1(for 0 padding) and out put of 170 embeddings (for better results use full vocabulary length+1)
   - 1 Gated recurrent unit (GRU) layer
 
-```python
+```
     # Body Only
     body_input = Input(name='body_input',shape=[max_len_b]) 
     body_Embed = Embedding(vocab_len_b+1,170,input_length=max_len_b,mask_zero=True,name='body_Embed')(body_input)
@@ -126,7 +124,7 @@ RNN for Body has
 ```
 
 Combine the 2 GRU outputs
-```python
+```
     com = concatenate([gru_out_t, gru_out_b])
 ```
 
@@ -136,7 +134,7 @@ The fully connected network has
   - 1 BatchNormalization layer
   - 1 Dense Output layer
   
-```python
+```
     # now the combined data is being fed to dense layers
     dense1 = Dense(400,activation='relu')(com)
     dp1 = Dropout(0.5)(dense1)
@@ -153,17 +151,6 @@ The fully connected network has
 
 The Model seem to performing good enough with score of 84%. Increase in the Embedding, GRU and dense layers would help in getting better results
 
-<img src="Images/Classification_Report.JPG" width="400">
-
-**Random Validation on Test Data**
-
-<img src="Images/prediction.JPG" width="400">
-
-
-**Save the Model & Weights**
-
-Saving the model for transfer learning or model execution later
-
-```python
+```
 model.save('./stackoverflow_tags.h5')
 ```
