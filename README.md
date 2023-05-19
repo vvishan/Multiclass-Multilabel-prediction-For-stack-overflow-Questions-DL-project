@@ -28,7 +28,7 @@ This is organized as three files:
 1. Read Questions File
 2. Drop All columns except Id,Title and Body
 3. Now the text in the Body column seem to have many html tags in the text. We use Regular Expressions and Clean the Body column text by removing the html tags
-```python
+```
 import re 
 def rem_html_tags(body):
     regex = re.compile('<.*?>')
@@ -38,11 +38,10 @@ ques['Body'] = ques['Body'].apply(rem_html_tags)
 4. Save the questions file for later use
 
 '''ques.to_csv('question_clean.csv',index=False)
-'''
+'''python
 
 >Tags File
-*Code* : Stackoverflow Tags Map & Model.ipynb
-
+*Code* : 
 1. Read Tags File
 2. Identify top 10 Tags by count
 ```python
