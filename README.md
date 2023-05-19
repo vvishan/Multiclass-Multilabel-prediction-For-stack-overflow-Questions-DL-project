@@ -39,6 +39,7 @@ ques['Body'] = ques['Body'].apply(rem_html_tags)
 ```python
 ques.to_csv('question_clean.csv',index=False)
 ```
+ques.to_csv('question_clean.csv',index=False)
 
 >Tags File
 *Code* : Stackoverflow Tags Map & Model.ipynb
