@@ -1,7 +1,5 @@
 # Multiclass Multilabel Prediction For StackOverflow Questions
 
-**Data set** : https://www.kaggle.com/therajeshreddy/stackoverflow
-
 **Objective** : Given text for Questions from StackoverFlow posts, predict tags associated with them.
 
 This is a scaled down version of predecting only top 10 most occurring tags 
