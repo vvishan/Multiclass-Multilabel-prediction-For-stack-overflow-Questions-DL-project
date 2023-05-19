@@ -36,10 +36,9 @@ def rem_html_tags(body):
 ques['Body'] = ques['Body'].apply(rem_html_tags)
 ```
 4. Save the questions file for later use
-```python
+
 ques.to_csv('question_clean.csv',index=False)
-```
-ques.to_csv('question_clean.csv',index=False)
+
 
 >Tags File
 *Code* : Stackoverflow Tags Map & Model.ipynb
